@@ -33,7 +33,7 @@ public class AoT_1 extends Configured implements Tool {
 				for(int i=0; i<tuple.length; i++){
 					JSONObject obj = new JSONObject(tuple[i]);
 					features = obj.getString("features");
-					JSON obj_inner = new JSONObject(features);
+					JSONObject obj_inner = new JSONObject(features);
 					parameter = obj_inner.getString("parameter");
 					context.write(new Text(parameter), one);
 				}

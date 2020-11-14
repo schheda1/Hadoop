@@ -14,10 +14,8 @@ import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapreduce.*;
 import org.apache.hadoop.mapreduce.lib.input.*;
 import org.apache.hadoop.mapreduce.lib.output.*;
-import org.apache.hadoop.util.Tool;
-import org.apache.hadoop.util.ToolRunner;
 
-public class AoT_1 extends Configured implements Tool {
+public class AoT_1 extends {
 	
 	// 4 types declared: Type of input key, type of input value, type of output key, type of output value
 	public static class MyMapper extends Mapper<Object, Text, Text, LongWritable> {
@@ -66,11 +64,6 @@ public class AoT_1 extends Configured implements Tool {
 	
 	
 	public static void main(String[] args)  throws Exception {
-		int res = ToolRunner.run(new Configuration(), new AoT_1(), args);
-        System.exit(res);
-	}
-	
-	public int run(String[] args) throws Exception{
 		Configuration conf = new Configuration();
 		Job myjob = Job.getInstance(conf, "my word count test");
 		myjob.setJarByClass(AoT_1.class);
@@ -82,6 +75,8 @@ public class AoT_1 extends Configured implements Tool {
 		// myjob.setNumReduceTasks(2);
 		FileInputFormat.addInputPath(myjob, new Path(args[0]));
 		FileOutputFormat.setOutputPath(myjob,  new Path(args[1]));
-		return myjob.waitForCompletion(true) ? 0 : 1;
+		System.exit(myjob.waitForCompletion(true) ? 0 : 1);
 	}
+	
+
 }

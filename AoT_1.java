@@ -32,7 +32,7 @@ public class AoT_1 extends Configured implements Tool {
 					features = obj.getString("features");
 					JSON obj_inner = new JSONObject(features);
 					parameter = obj_inner.getString("parameter");
-					context.write(parameter, one)
+					context.write(new Text(parameter), one);
 				}
 			} catch (JSONException e){
 				e.printStackTrace();

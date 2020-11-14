@@ -32,7 +32,7 @@ public class AoT_1 {
 					features = obj.getString("features");
 					JSONObject obj_inner = new JSONObject(features);
 					parameter = obj_inner.getString("parameter");
-					context.write(parameter, one)
+					context.write(parameter, one);
 				}
 			} catch (JSONException e){
 				e.printStackTrace();

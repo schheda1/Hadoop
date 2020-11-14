@@ -15,7 +15,7 @@ import org.apache.hadoop.mapreduce.*;
 import org.apache.hadoop.mapreduce.lib.input.*;
 import org.apache.hadoop.mapreduce.lib.output.*;
 
-public class AoT_1 extends {
+public class AoT_1 {
 	
 	// 4 types declared: Type of input key, type of input value, type of output key, type of output value
 	public static class MyMapper extends Mapper<Object, Text, Text, LongWritable> {

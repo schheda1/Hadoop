@@ -41,8 +41,10 @@ public class AoT_1 {
 
 					Map<String, String> features = ((Map<String,String>)jo.get("features"));
 					for (Map.Entry<String, String> entry : features.entrySet()) {
-					    if (entry.containsKey(default_parameter)) {
-					    	context.write(new Text(entry.getValue()), one);
+						String k = entry.getKey();
+        					String v = entry.getValue();
+					    if (k.equals(default_parameter)) {
+					    	context.write(new Text(v), one);
 					    }
 					}
 					// iterating address Map 

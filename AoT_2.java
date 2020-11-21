@@ -37,7 +37,7 @@ public class AoT_2 {
 			//String default_parameter = "parameter";
 			String line = value.toString();
             		String[] tuple = line.split("\\n");
-			String value2;
+			double value2;
 			//double store_data[] = new store_data[tuple.length]; 
 			//int data_idx=0;
 			try{

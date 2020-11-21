@@ -29,7 +29,7 @@ public class AoT_1 {
 		
 		// The 4 types declared here should match the types that was declared on the top
 		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-			String features;
+			//String features;
 			String parameter;
 			String default_parameter = "parameter";
 			String line = value.toString();

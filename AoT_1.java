@@ -46,7 +46,7 @@ public class AoT_1 {
 					    Map.Entry pair = itr1.next(); 
 					    //System.out.println(pair.getKey() + " : " + pair.getValue());
 					    if (pair.containsKey(default_parameter)) {
-					    	context.write(new Text(parameter), one);
+					    	context.write(new Text(pair.getValue()), one);
 					    }
 					} 
 					//features = obj.getString("features");

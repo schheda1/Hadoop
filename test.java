@@ -38,7 +38,7 @@ public class Test {
             
            //Object obj = new JSONParser().parse(new FileReader("aot-small-10k.json"));
            
-       } catch (FileNotFoundException|IOException e) {
+       } catch (IOException e) {
            //fe.printStackTrace();
             throw e;
        }

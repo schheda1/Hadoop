@@ -15,8 +15,8 @@ public class Test {
             int i=0;
             while(i<2){
                 //JSONObject obj = new JSONObject(line);
-                Object obj = new JSONParser().parse(line);
-                JSONObject jo = (JSONObject) obj;
+                //Object obj = new JSONParser().parse(line);
+                JSONObject jo = (JSONObject) line;
                 Map features = ((Map)jo.get("features"));
                 // iterating address Map 
                 Iterator<Map.Entry> itr1 = features.entrySet().iterator(); 

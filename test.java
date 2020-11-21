@@ -10,7 +10,7 @@ public class Test {
            Scanner sc = new Scanner(obj);
            int i=1;
            while(i<3){
-                String data = sc.nextLine()
+                String data = sc.nextLine();
                 JSONObject obj1 = new JSONObject(data);
                 features = obj1.getString("features");
                 System.out.println(features.toString());

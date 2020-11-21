@@ -55,7 +55,7 @@ public class AoT_2 {
 							value = features.get("value_hrf");
 							//store_data[data_idx] = Double.parseDouble(value);
 							//data_idx++;
-							context.write(new Text(v), new DoubleWriteable(value))
+							context.write(new Text(v), new DoubleWriteable(value));
 							
 					    }
 					}

@@ -39,15 +39,18 @@ public class AoT_1 {
 					Object obj2=JSONValue.parse(tuple[i]);
 					JSONObject jo = (JSONObject) obj2;
 
-					Map<String, String> features = ((Map)jo.get("features"));
-					// iterating address Map 
-					Iterator<Map.Entry> itr1 = features.entrySet().iterator(); 
-					while (itr1.hasNext()) { 
-					    Map.Entry<String,String> pair = itr1.next(); 
-					    //System.out.println(pair.getKey() + " : " + pair.getValue());
-					    if (pair.containsKey(default_parameter)) {
-					    	context.write(new Text(pair.getValue()), one);
+					Map<String, String> features = ((Map<String,String>)jo.get("features"));
+					for (Map.Entry<String, String> entry : features.entrySet()) {
+					    if (entry.containsKey(default_parameter)) {
+					    	context.write(new Text(entry.getValue()), one);
 					    }
+					}
+					// iterating address Map 
+					//Iterator<Map.Entry<String,String>> itr1 = features.entrySet().iterator(); 
+					//while (itr1.hasNext()) { 
+					//    Map.Entry<String,String> pair = itr1.next(); 
+					    //System.out.println(pair.getKey() + " : " + pair.getValue());
+					    
 					} 
 					//features = obj.getString("features");
 					//JSONObject obj_inner = new JSONObject(features);

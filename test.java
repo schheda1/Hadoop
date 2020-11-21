@@ -1,5 +1,6 @@
 import java.io.FileReader;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Iterator; 
 import java.util.Map; 
 import java.io.BufferedReader;
@@ -10,7 +11,7 @@ import org.json.simple.JSONValue;
 import org.json.simple.*;
 
 public class Test {
-    public static void main(String args[]){
+    public static void main(String args[]) throws FileNotFoundException, IOException {
        BufferedReader br; 
         try{
            br = new BufferedReader(new FileReader("aot-small-10k.json"));
@@ -37,8 +38,9 @@ public class Test {
             
            //Object obj = new JSONParser().parse(new FileReader("aot-small-10k.json"));
            
-       } catch (FileNotFoundException fe) {
-           fe.printStackTrace();
+       } catch (Exception e) {
+           //fe.printStackTrace();
+            throw e;
        }
     }
 }

@@ -3,8 +3,14 @@ import java.io.IOException;
 import java.util.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.json.*;
+import java.util.Iterator; 
+import java.util.Map; 
+//import org.json.*;
+import org.json.simple.JSONArray; 
+import org.json.simple.JSONObject; 
+import org.json.simple.parser.*;
+import org.json.simple.JSONValue;
+import org.json.simple.*;
 
 import org.apache.commons.lang.WordUtils;
 import org.apache.hadoop.conf.Configured;
@@ -25,17 +31,30 @@ public class AoT_1 {
 		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 			String features;
 			String parameter;
+			String default_parameter = "parameter";
 			String line = value.toString();
-            String[] tuple = line.split("\\n");
+            		String[] tuple = line.split("\\n");
 			try{
 				for(int i=0; i<tuple.length; i++){
-					JSONObject obj = new JSONObject(tuple[i]);
-					features = obj.getString("features");
-					JSONObject obj_inner = new JSONObject(features);
-					parameter = obj_inner.getString("parameter");
-					context.write(new Text(parameter), one);
+					Object obj2=JSONValue.parse(tuple[i]);
+					JSONObject jo = (JSONObject) obj2;
+
+					Map features = ((Map)jo.get("features"));
+					// iterating address Map 
+					Iterator<Map.Entry> itr1 = features.entrySet().iterator(); 
+					while (itr1.hasNext()) { 
+					    Map.Entry pair = itr1.next(); 
+					    //System.out.println(pair.getKey() + " : " + pair.getValue());
+					    if (pair.containsKey(default_parameter)) {
+					    	context.write(new Text(parameter), one);
+					    }
+					} 
+					//features = obj.getString("features");
+					//JSONObject obj_inner = new JSONObject(features);
+					// parameter = obj_inner.getString("parameter");
+					
 				}
-			} catch (JSONException e){
+			} catch (Exception e){
 				e.printStackTrace();
 			}
 		}

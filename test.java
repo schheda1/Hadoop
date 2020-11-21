@@ -12,7 +12,7 @@ public class Test {
            while(i<3){
                 String data = sc.nextLine();
                 JSONObject obj1 = new JSONObject(data);
-                features = obj1.getString("features");
+                String features = obj1.getString("features");
                 System.out.println(features.toString());
                 i++;
            }

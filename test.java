@@ -24,7 +24,7 @@ public class Test {
                     Map.Entry pair = itr1.next(); 
                     System.out.println(pair.getKey() + " : " + pair.getValue()); 
                 } 
-                double latitiude = (long) jo.get("latitude");
+                double latitiude = (double) jo.get("latitude");
                 System.out.print(latitude);
                 i++;
                 line = br.readLine();

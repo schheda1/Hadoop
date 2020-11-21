@@ -39,11 +39,11 @@ public class AoT_1 {
 					Object obj2=JSONValue.parse(tuple[i]);
 					JSONObject jo = (JSONObject) obj2;
 
-					Map features = ((Map)jo.get("features"));
+					Map<String, String> features = ((Map)jo.get("features"));
 					// iterating address Map 
 					Iterator<Map.Entry> itr1 = features.entrySet().iterator(); 
 					while (itr1.hasNext()) { 
-					    Map.Entry pair = itr1.next(); 
+					    Map.Entry<String,String> pair = itr1.next(); 
 					    //System.out.println(pair.getKey() + " : " + pair.getValue());
 					    if (pair.containsKey(default_parameter)) {
 					    	context.write(new Text(pair.getValue()), one);

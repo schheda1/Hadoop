@@ -28,7 +28,7 @@ public class AoT_2 {
 	
 	
 	// 4 types declared: Type of input key, type of input value, type of output key, type of output value
-	public static class MyMapper extends Mapper<Object, Text, Text, DoubleWriteable> {
+	public static class MyMapper extends Mapper<Object, Text, Text, DoubleWritable> {
 		//private final static LongWritable one = new LongWritable(1);
 		
 		// The 4 types declared here should match the types that was declared on the top
@@ -50,12 +50,12 @@ public class AoT_2 {
 						String k = entry.getKey();
         				String v = entry.getValue();
 						long time_val = Long.parseLong(features.get("timestamp"));
-					    if ((k.equals(param)) && (time_val <= end_date) && (time_val>= start_date) ) {
+					    if (k.equals(param)) {
 					    	//context.write(new Text(v), one);
 							value = features.get("value_hrf");
 							//store_data[data_idx] = Double.parseDouble(value);
 							//data_idx++;
-							context.write(new Text(v), new DoubleWriteable(value));
+							context.write(new Text(v), new DoubleWritable(value));
 							
 					    }
 					}
@@ -71,20 +71,20 @@ public class AoT_2 {
 
 	// 4 types declared: Type of input key, type of input value, type of output key, type of output value
 	// The input types of reduce should match the output type of map
-	public static class MyReducer extends Reducer<Text, DoubleWriteable, Text, DoubleWriteable> {
+	public static class MyReducer extends Reducer<Text, DoubleWritable, Text, DoubleWritable> {
 		//private LongWritable total = new LongWritable();
-		private DoubleWriteable total = new DoubleWriteable();
+		private DoubleWritable total = new DoubleWritable();
 		
 		// Notice the that 2nd argument: type of the input value is an Iterable collection of objects 
 		//  with the same type declared above/as the type of output value from map
-		public void reduce(Text key, Iterable<DoubleWriteable> values, Context context) throws IOException, InterruptedException {
+		public void reduce(Text key, Iterable<DoubleWritable> values, Context context) throws IOException, InterruptedException {
 			double sum = 0;
 			int counter = 0;
 			double max_val = Double.MIN_VALUE;
 			double min_val = Double.MAX_VALUE;
 			
 			if(aggregator.equals("max")){
-				for (DoubleWriteable tmp: values) {
+				for (DoubleWritable tmp: values) {
 					//sum += tmp.get();
 					//counter++;
 					if(tmp.get() > max_val){
@@ -94,7 +94,7 @@ public class AoT_2 {
 				total.set(max_val);
 			}
 			else if(aggregator.equals("min")){
-				for (DoubleWriteable tmp: values) {
+				for (DoubleWritable tmp: values) {
 					//sum += tmp.get();
 					//counter++;
 					if(tmp.get() < min_val){
@@ -104,7 +104,7 @@ public class AoT_2 {
 				total.set(min_val);				
 			}
 			else {
-				for (DoubleWriteable tmp: values) {
+				for (DoubleWritable tmp: values) {
 					sum += tmp.get();
 					counter++;
 				}
@@ -119,9 +119,9 @@ public class AoT_2 {
 	
 	public static void main(String[] args)  throws Exception {
 		start_date = new SimpleDateFormat("yyyy-mm-dd").parse(args[1]);
-		start_date = start_date.getTime();
+		//start_date = start_date.getTime();
 		end_date = new SimpleDateFormat("yyyy-mm-dd").parse(args[2]);
-		end_date = end_date.getTime();
+		//end_date = end_date.getTime();
 		param = args[3];
 		aggregator = args[4];
 		Configuration conf = new Configuration();

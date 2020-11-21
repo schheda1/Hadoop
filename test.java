@@ -1,23 +1,37 @@
-import org.json.JSONObject;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.FileReader; 
+import java.util.Iterator; 
+import java.util.Map; 
+import java.io.BufferedReader;
+import org.json.simple.JSONArray; 
+import org.json.simple.JSONObject; 
+import org.json.simple.parser.*;
 
 public class Test {
     public static void main(String args[]){
-       try{
-           File obj = new File("aot-small-10k.json");
-           Scanner sc = new Scanner(obj);
-           int i=1;
-           while(i<3){
-                String data = sc.nextLine();
-                JSONObject obj1 = new JSONObject(data);
-                String features = obj1.getString("latitude");
-                System.out.println(features.toString());
+       BufferedReader br; 
+        try{
+           br = = new BufferedReader(new FileReader("aot-small-10k.json"));
+            String line = br.readLine();
+            int i=0;
+            while(i<2){
+                //JSONObject obj = new JSONObject(line);
+                Object obj = new JSONParser().parse(line);
+                JSONObject jo = (JSONObject) obj;
+                Map features = ((Map)jo.get("features"));
+                // iterating address Map 
+                Iterator<Map.Entry> itr1 = address.entrySet().iterator(); 
+                while (itr1.hasNext()) { 
+                    Map.Entry pair = itr1.next(); 
+                    System.out.println(pair.getKey() + " : " + pair.getValue()); 
+                } 
+                double latitiude = (long) jo.get("latitude");
+                System.out.print(latitude);
                 i++;
-           }
-           JSONObject jo = new JSONObject("{ \"abc\" : \"def\" }");
-           System.out.println(jo.toString());
+                line = br.readLine();
+            }
+            
+           //Object obj = new JSONParser().parse(new FileReader("aot-small-10k.json"));
+           
        } catch (FileNotFoundException fe) {
            fe.printStackTrace();
        }

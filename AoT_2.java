@@ -36,8 +36,8 @@ public class AoT_2 {
 			//String parameter;
 			//String default_parameter = "parameter";
 			String line = value.toString();
-            String[] tuple = line.split("\\n");
-			String value;
+            		String[] tuple = line.split("\\n");
+			String value2;
 			//double store_data[] = new store_data[tuple.length]; 
 			//int data_idx=0;
 			try{
@@ -48,14 +48,14 @@ public class AoT_2 {
 					Map<String, String> features = ((Map<String,String>)jo.get("features"));
 					for (Map.Entry<String, String> entry : features.entrySet()) {
 						String k = entry.getKey();
-        				String v = entry.getValue();
+        					String v = entry.getValue();
 						long time_val = Long.parseLong(features.get("timestamp"));
 					    if (k.equals(param)) {
 					    	//context.write(new Text(v), one);
-							value = features.get("value_hrf");
+							value2 = Double.parseDouble(features.get("value_hrf"));
 							//store_data[data_idx] = Double.parseDouble(value);
 							//data_idx++;
-							context.write(new Text(v), new DoubleWritable(value));
+							context.write(new Text(v), new DoubleWritable(value2));
 							
 					    }
 					}

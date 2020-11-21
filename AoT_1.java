@@ -51,7 +51,7 @@ public class AoT_1 {
 					//    Map.Entry<String,String> pair = itr1.next(); 
 					    //System.out.println(pair.getKey() + " : " + pair.getValue());
 					    
-					} 
+					//} 
 					//features = obj.getString("features");
 					//JSONObject obj_inner = new JSONObject(features);
 					// parameter = obj_inner.getString("parameter");

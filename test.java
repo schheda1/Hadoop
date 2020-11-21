@@ -10,7 +10,7 @@ public class Test {
     public static void main(String args[]){
        BufferedReader br; 
         try{
-           br = = new BufferedReader(new FileReader("aot-small-10k.json"));
+           br = new BufferedReader(new FileReader("aot-small-10k.json"));
             String line = br.readLine();
             int i=0;
             while(i<2){

@@ -19,7 +19,7 @@ public class Test {
                 JSONObject jo = (JSONObject) obj;
                 Map features = ((Map)jo.get("features"));
                 // iterating address Map 
-                Iterator<Map.Entry> itr1 = address.entrySet().iterator(); 
+                Iterator<Map.Entry> itr1 = features.entrySet().iterator(); 
                 while (itr1.hasNext()) { 
                     Map.Entry pair = itr1.next(); 
                     System.out.println(pair.getKey() + " : " + pair.getValue()); 

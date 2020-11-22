@@ -38,7 +38,7 @@ public class AoT_2 {
 			Configuration cd = context.getConfiguration();
 			String param_arg = cf.get("param");
 			String st_date_arg = cf.get("start_date");
-			String ed_date-arg = cf.get("end_date");
+			String ed_date_arg = cf.get("end_date");
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			
 			String default_parameter = "parameter";

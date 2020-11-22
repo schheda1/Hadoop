@@ -61,6 +61,7 @@ public class AoT_2 {
 					for (Map.Entry<String, String> entry : features.entrySet()) {
 						String k = entry.getKey();
         					String v = entry.getValue();
+						//
 						long time_val = Long.parseLong(features.get("timestamp"));
 					    	if (k.equals(default_parameter) && v.equals(param_arg) && time_val.after(start_date_arg) && time_val.before(end_date_arg)) {
 					    	//context.write(new Text(v), one);
@@ -72,7 +73,7 @@ public class AoT_2 {
 						if (k.equals(val_hrf) && temp==1){
 							value2 = Double.parseDouble(v);
 							temp=0;
-							conext.write(new text(key_temp), new DoubleWriteable(value2));
+							context.write(new text(key_temp), new DoubleWriteable(value2));
 						}
 						
 					}
@@ -97,7 +98,7 @@ public class AoT_2 {
 		public void reduce(Text key, Iterable<DoubleWritable> values, Context context) throws IOException, InterruptedException {
 			Configuration cf2 = context.getConfiguration();
 			String aggregator = cf2.get("aggregator");
-			String_st_date = cf2.get("start_date");
+			String st_date = cf2.get("start_date");
 			String ed_date = cf2.get("end_date");
 			String par = cf2.get("param");
 			String cons = "Start Date: "+st_date+" End Date: "+ed_date+" Parameter: "+par+" Aggregate Function: "+aggregator+" Value: ";

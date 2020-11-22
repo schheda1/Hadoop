@@ -49,7 +49,7 @@ public class AoT_2 {
 			
 			try{
 				Date start_date_arg = sdf.parse(st_date_arg);
-				Date end_date_arg = sdf.parse(ed_start_arg);
+				Date end_date_arg = sdf.parse(ed_date_arg);
 				for(int i=0; i<tuple.length; i++){
 					Object obj2=JSONValue.parse(tuple[i]);
 					JSONObject jo = (JSONObject) obj2;

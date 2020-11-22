@@ -73,7 +73,7 @@ public class AoT_2 {
 						if (k.equals(val_hrf) && temp==1){
 							value2 = Double.parseDouble(v);
 							temp=0;
-							context.write(new text(key_temp), new DoubleWriteable(value2));
+							context.write(new Text(key_temp), new DoubleWritable(value2));
 						}
 						
 					}

@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.util.*;
 import java.text.SimpleDateFormat;
-import java.test.DateFormat;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.Iterator; 
 import java.util.Map; 
@@ -35,7 +35,7 @@ public class AoT_2 {
 		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 			//String parameter;
 			//String default_parameter = "parameter";
-			Configuration cd = context.getConfiguration();
+			Configuration cf = context.getConfiguration();
 			String param_arg = cf.get("param");
 			String st_date_arg = cf.get("start_date");
 			String ed_date_arg = cf.get("end_date");

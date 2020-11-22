@@ -97,6 +97,10 @@ public class AoT_2 {
 		public void reduce(Text key, Iterable<DoubleWritable> values, Context context) throws IOException, InterruptedException {
 			Configuration cf2 = context.getConfiguration();
 			String aggregator = cf2.get("aggregator");
+			String_st_date = cf2.get("start_date");
+			String ed_date = cf2.get("end_date");
+			String par = cf2.get("param");
+			String cons = "Start Date: "+st_date+" End Date: "+ed_date+" Parameter: "+par+" Aggregate Function: "+aggregator+" Value: ";
 			
 			double sum = 0;
 			int counter = 0;
@@ -132,7 +136,7 @@ public class AoT_2 {
 			}
 
 			// This write to the final output
-			context.write(key, total);
+			context.write(new Text(cons), total);
 		}
 	}
 	

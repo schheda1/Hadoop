@@ -37,47 +37,42 @@ public class HadoopAoTExtra {
 			//String parameter;
 			Configuration cf = context.getConfiguration();
 			String param_arg = cf.get("param");
-			String st_date_arg = cf.get("start_date");
-			String ed_date_arg = cf.get("end_date");
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			
-			//Date start_date_arg = sdf.parse(st_date_arg);
-			//Date end_date_arg = sdf.parse(ed_date_arg);
-			
-			
-			
+			String node_id = "node_id";								 					
 			String default_parameter = "parameter";
 			String line = value.toString();
             		String[] tuple = line.split("\\n");
 			double value2;
 			String val_hrf = "value_hrf";
 			//String param2="temperature";
-			 
-			
+						
 			try{
-				Date start_date_arg = sdf.parse(st_date_arg);
-				Date end_date_arg = sdf.parse(ed_date_arg);
 				for(int i=0; i<tuple.length; i++){
 					Object obj2=JSONValue.parse(tuple[i]);
 					JSONObject jo = (JSONObject) obj2;
 					String key_temp="";
 					int temp=0;
 					Map<String, String> features = ((Map<String,String>)jo.get("features"));
-					String t_val = String.valueOf(jo.get("timestamp"));
-					Date time_val = new Date(Long.parseLong(t_val));
+					String geohash = String.valueOf(jo.get("geohash"));
+					String latitude = String.valueOf(jo.get("latitude"));
+					String longitude = String.valueOf(jo.get("longitude"));
+					String output_str_p2 = ",("+String.valueOf(latitude)+","+String.valueOf(longitude)+"),"+geohash;				
 					for (Map.Entry<String, String> entry : features.entrySet()) {
 						String k = entry.getKey();
         					String v = String.valueOf(entry.getValue());
 						//long time_val = jo.get("timestamp");
-					    if (k.equals(default_parameter) && v.equals(param_arg) && time_val.after(start_date_arg) && time_val.before(end_date_arg)) {
-							key_temp = v;
+					    if (k.equals(default_parameter) && v.equals(param_arg)) {
+							//key_temp = v;
 							temp=1;
 							//context.write(new Text(v), new DoubleWritable(10.00));		
+					    }
+					    if (k.equals(node_id) && temp==1){
+						key_temp = v;
 					    }
 					    if (k.equals(val_hrf) && temp==1) {
 						value2 = Double.parseDouble(v);	
 						temp=0;
-						context.write(new Text(key_temp), new DoubleWritable(value2));
+						String temp_op = key_temp+output_str_p2;
+						context.write(new Text(temp_op), new DoubleWritable(value2));
 
 					    }
 					}
@@ -101,76 +96,36 @@ public class HadoopAoTExtra {
 		//  with the same type declared above/as the type of output value from map
 		public void reduce(Text key, Iterable<DoubleWritable> values, Context context) throws IOException, InterruptedException {
 			Configuration cf2 = context.getConfiguration();
-			String aggregator = cf2.get("aggregator");
-			String st_date = cf2.get("start_date");
-			String ed_date = cf2.get("end_date");
+			Double min_value = Double.parseDouble(cf2.get("min_value"));
+			Double max_value = Double.parseDouble(cf2.get("max_value"));		
 			String par = cf2.get("param");
-			String cons = "Start Date: " +st_date+" End Date: "+ed_date+" Parameter: "+par+" Aggregate function: "+aggregator+" Value:";
-			double sum = 0;
-			int counter = 0;
-			double max_val = Double.MIN_VALUE;
-			double min_val = Double.MAX_VALUE;
-			String aggregator2 = "avg";
-			if(aggregator == "max"){
-				for (DoubleWritable tmp: values) {
-					//sum += tmp.get();
-					//counter++;
-					if(tmp.get() > max_val){
-						max_val = tmp.get();
-					}
-				}
-				total.set(max_val);
-			}
-			else if(aggregator == "min"){
-				for (DoubleWritable tmp: values) {
-					//sum += tmp.get();
-					//counter++;
-					if(tmp.get() < min_val){
-						min_val = tmp.get();
-					}
-				}
-				total.set(min_val);				
-			}
-			else if(aggregator == "avg") {
-				for (DoubleWritable tmp: values) {
-					sum += tmp.get();
-					counter++;
-				}
-				try{
-					total.set(sum/counter);
-				} catch(NullPointerException ne){
-					ne.printStackTrace();
-				}
-			}
+			//String cons = "Start Date: " +st_date+" End Date: "+ed_date+" Parameter: "+par+" Aggregate function: "+aggregator+" Value:";
+			//double sum = 0;
+			String temp_str = "outlier";
 			
-			//for (DoubleWritable tmp: values) {
-			//	sum+= tmp.get();
-			//}
+			for (DoubleWritable tmp: values) {
+				//sum+= tmp.get();
+				if ((tmp.get() > max_value) || (tmp.get() < min_value)) {
+					context.write(key, tmp);	
+				}
+			}
 			//total.set(sum);
 			// This write to the final output
-			context.write(new Text(cons), total);
-			//context.write(new Text(aggregator), new DoubleWritable(sum));
+			//context.write(new Text(cons), total);
+			//context.write(key, total);
 		}
 	}
 	
 	
 	public static void main(String[] args)  throws Exception {
-		Date start_date_ = new SimpleDateFormat("yyyy-MM-dd").parse(args[1]);
-		//start_date = start_date_.getTime();
-		Date end_date_ = new SimpleDateFormat("yyyy-MM-dd").parse(args[2]);
-		//end_date = end_date_.getTime();
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");	
-		String st_date = df.format(start_date_);
-		String ed_date = df.format(end_date_);
-		//param = args[3];
-		//aggregator = args[4];
 		Configuration conf = new Configuration();
-		conf.set("start_date", st_date);
-		conf.set("end_date", ed_date);
-		conf.set("param", args[3]);
-		conf.set("aggregator", args[4]);
-		Job myjob = Job.getInstance(conf, "my specific parameter specific aggregate test");
-		myjob.setJarByClass(AoT_2.class);
+		conf.set("param", args[1]);
+		conf.set("min_value", args[2]);
+		conf.set("max_value", args[3]);
+		//conf.set("aggregator", args[4]);
+		
+		Job myjob = Job.getInstance(conf, "my big data outlier removal test");
+		myjob.setJarByClass(HadoopAoTExtra.class);
 		myjob.setMapperClass(MyMapper.class);
 		myjob.setReducerClass(MyReducer.class);
 		myjob.setOutputKeyClass(Text.class);
@@ -178,7 +133,7 @@ public class HadoopAoTExtra {
 		// Uncomment to set the number of reduce tasks
 		// myjob.setNumReduceTasks(2);
 		FileInputFormat.addInputPath(myjob, new Path(args[0]));
-		FileOutputFormat.setOutputPath(myjob,  new Path(args[5]));
+		FileOutputFormat.setOutputPath(myjob,  new Path(args[4]));
 
 		
 		System.exit(myjob.waitForCompletion(true) ? 0 : 1);

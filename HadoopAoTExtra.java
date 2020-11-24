@@ -126,6 +126,9 @@ public class HadoopAoTExtra {
 		
 		Job myjob = Job.getInstance(conf, "my big data outlier removal test");
 		myjob.setJarByClass(HadoopAoTExtra.class);
+		//adding the following line to make the file run on AWS EC2 - EMR
+		mhjob.addFileToCalssPath(new Path("/user/root/json_simple.jar"));
+		
 		myjob.setMapperClass(MyMapper.class);
 		myjob.setReducerClass(MyReducer.class);
 		myjob.setOutputKeyClass(Text.class);
